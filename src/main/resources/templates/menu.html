@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: "Helvetica Neue", "PingFang TC", "微軟正黑體", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #f0f7f4;
+            padding: 20px;
+            border-bottom: 1px solid #cce3dc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 26px;
+            color: #6c8e7f;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .logo span {
+            font-size: 14px;
+            color: #a0a0a0;
+            font-weight: normal;
+            display: block;
+        }
+        .nav-bar {
+            padding: 15px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .nav-bar a {
+            color: #4a5e57;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+        .nav-bar a:hover {
+            color: #a25c5c;
+        }
+        .item-count {
+            background-color: #6c8e7f;
+            color: white;
+            border-radius: 50%;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div th:fragment="menu">
+    <!-- 🔰 LOGO 與使用者名稱 -->
+    <div class="header">
+        <div class="logo">
+            老郭鋪山東蔥油餅 🧅
+            <span>方便點餐 輕鬆管理</span>
+        </div>
+        <div>
+            <span th:if="${session.userDTO != null}">
+                👤 <span th:text="${session.userDTO.username}"></span>
+            </span>
+        </div>
+    </div>
+
+    <!-- 🌿 導覽列 -->
+    <div class="nav-bar">
+        <div th:if="${session.userDTO != null and session.userDTO.role == 'customer'}">
+            🥕 <a th:href="@{/order}">商品訂購</a>
+            🛒 <a th:href="@{/cart}">
+                購物車 
+                <span class="item-count"
+                      th:text="${session.cart != null ? session.cart.size() : 0}">0</span>
+            </a>
+            🍠 <a th:href="@{/order/history}">歷史紀錄</a>
+            🚪 <a th:href="@{/logout}">點餐者登出</a>
+        </div>
+
+        <div th:if="${session.userDTO != null and session.userDTO.role == 'admin'}">
+            📦 <a th:href="@{/admin/products}">商品管理</a>
+            🫘 <a th:href="@{/admin/statistics}">統計資料</a>
+            👥 <a th:href="@{/admin/finance}">營業額與成本控制</a>
+            🚪 <a th:href="@{/logout}">管理者登出</a>
+        </div>
+
+        <div th:if="${session.userDTO == null}">
+            🌱 <a th:href="@{/login(role='customer')}">點餐者登入</a>
+            🧄 <a th:href="@{/login(role='admin')}">管理者登入</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
