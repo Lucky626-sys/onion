@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品清單</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", "PingFang TC", "微軟正黑體", sans-serif;
+            background-color: #fefefe;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #5d735d;
+        }
+        .product-table {
+            margin: 30px auto;
+            width: 90%;
+        }
+        .product-table th, .product-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .add-cart {
+            background-color: #91c788;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-cart:hover {
+            background-color: #6fbf73;
+        }
+    </style>
+</head>
+<body>
+	<div th:replace="onion/menu :: menu"></div>
+    <!-- 引入共用選單 -->
+    <div th:replace="onion/menu :: menuFragment"></div>
+
+    <h1>商品清單</h1>
+
+    <table class="pure-table pure-table-bordered product-table">
+        <thead>
+            <tr>
+                <th>商品名稱</th>
+                <th>價格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${productList}">
+                <td th:text="${product.name}">商品名稱</td>
+                <td th:text="${product.price}">商品價格</td>
+                <td>
+                    <form th:action="@{/product/cart/add}" method="post">
+                        <input type="hidden" th:name="productId" th:value="${product.id}" />
+                        <button type="submit" class="add-cart">加入購物車</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者首頁</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+   
+    <style>
+        body {
+            font-family: "Helvetica Neue", "PingFang TC", "微軟正黑體", sans-serif;
+            background-color: #f4f9f4;
+            text-align: center;
+        }
+        h1 {
+            color: #47694f;
+            margin-top: 40px;
+        }
+        .menu-box {
+            margin: 40px auto;
+            max-width: 500px;
+        }
+        .menu-box a {
+            display: block;
+            margin: 15px auto;
+            padding: 15px;
+            background-color: #d0e2cc;
+            color: #2e463e;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .menu-box a:hover {
+            background-color: #c0d5bb;
+        }
+    </style>
+</head>
+<body>
+	<div th:replace="onion/menu :: menu"></div>
+    <!-- 若你之後要用共用 menu，可用 fragment 取代 -->
+    <div th:replace="onion/menu :: menu"></div>
+
+    <h1>管理者 <span th:text="${session.userDTO.username}"></span>，您好！</h1>
+
+    <div class="menu-box">
+        📦 <a th:href="@{/product/list}">商品管理</a>
+        🧮 <a th:href="@{/product/statistics}">統計分析</a>
+        👥 <a th:href="@{/finance/report}">營業額與成本控制</a>
+        🚪 <a th:href="@{/user/logout}">登出</a>
+    </div>
+
+</body>
+</html>
